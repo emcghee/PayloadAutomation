@@ -1,0 +1,12 @@
+README.md
+setup.py
+automation/Artifactor.py
+automation/Compyler.py
+automation/Detemplate.py
+automation/Striker.py
+automation/__init__.py
+automation/setup.py
+automation_FAULTLINE.egg-info/PKG-INFO
+automation_FAULTLINE.egg-info/SOURCES.txt
+automation_FAULTLINE.egg-info/dependency_links.txt
+automation_FAULTLINE.egg-info/top_level.txt
