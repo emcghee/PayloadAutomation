@@ -19,3 +19,4 @@ Other associated work and credits:
 TODO:
  - Add additional error checking, specifically for application dependencies
  - Expand compyler to include remote builds and mingw
+ - Add email functionality to Striker
