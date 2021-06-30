@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="payload_automation",
-    version="1.0.0",
+    version="1.0.1",
     author="Faultline",
     author_email="@BinaryFaultline",
     description="A set of libraries to help automate payload development, testing, opsec checking, and deployment for Cobalt Strike",
