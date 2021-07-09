@@ -7,7 +7,7 @@ setuptools.setup(
     name="payload_automation",
     version="1.0.1",
     author="Faultline",
-    author_email="@BinaryFaultline",
+    author_email="jahawkins623@gmail.com",
     description="A set of libraries to help automate payload development, testing, opsec checking, and deployment for Cobalt Strike",
     long_description=long_description,
     long_description_content_type="text/markdown",
