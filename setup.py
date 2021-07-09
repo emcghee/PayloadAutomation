@@ -27,4 +27,5 @@ setuptools.setup(
         'magicfile',
 	'PyYAML==5.4.1'
     ],
+    download_url = 'https://github.com/emcghee/PayloadAutomation/archive/refs/tags/1.0.1.tar.gz',
 )
