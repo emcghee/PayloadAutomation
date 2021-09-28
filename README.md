@@ -1,6 +1,8 @@
 What is Payload Automation?
 =================
 
+Now available as a PyPi package: https://pypi.org/project/payload-automation/
+
 Payload Automation is a collection of Python classes for automating payload development, testing, opsec checking, and deployment with Cobalt Strike.
 
 Please check out the examples folder for pre-made scripts taking advantage of the functionality provided.
