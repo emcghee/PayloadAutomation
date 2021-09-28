@@ -465,6 +465,10 @@ class CSConnector:
 		#self.bid = ''
 		#self.socks_port_connected = False
 
+	def ag_load_script(self, script_path):
+		cmd = f"include('{script_path}')"`
+		self.ag_sendline(cmd)
+
 	def ag_sendline(self, cmd, script_console_command='e', sleep_time: int = 0):
 		full_cmd = "{} {};".format(script_console_command, cmd)
 		self.cs_process.sendline(full_cmd)
