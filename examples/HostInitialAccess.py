@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 
-from Striker import CSConnector
-from Artifactor import getHashes
+from payload_automation.striker import CSConnector
+from payload_automation.artifactor import getHashes
 
 iafile = "/Users/nameless/Desktop/SafeSpectre.txt"
 md5, sha1, sha256 = getHashes(file=iafile, hashtypes=["md5", "sha1","sha256"])

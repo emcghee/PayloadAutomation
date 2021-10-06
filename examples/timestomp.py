@@ -1,4 +1,4 @@
-from automation.Artifactor import timestomp, getExif
+from payload_automation.artifactor import timestomp, getExif
 from argparse import ArgumentParser
 from os.path import exists
 from datetime import datetime

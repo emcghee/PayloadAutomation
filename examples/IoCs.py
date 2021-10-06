@@ -2,8 +2,8 @@
 from argparse import ArgumentParser
 from ntpath import basename
 
-from automation.Striker import CSConnector
-from automation.Artifactor import getHashes, timestomp
+from payload_automation.striker import CSConnector
+from payload_automation.artifactor import getHashes, timestomp
 
 # alias iocs="python3 <PATH>/PayloadAutomation/examples/IoCs.py"
 
