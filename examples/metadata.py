@@ -1,4 +1,4 @@
-from automation.Artifactor import getExif, getHashes, getOutputType, getPDB
+from payload_automation.artifactor import getExif, getHashes, getOutputType, getPDB
 from argparse import ArgumentParser
 from os.path import exists
 

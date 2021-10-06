@@ -1,4 +1,4 @@
 #!/usr/local/bin/python3
-from Compyler import msbuildCSharp
+from payload_automation.compyler import msbuildCSharp
 
 msbuildCSharp("solution.sln")
