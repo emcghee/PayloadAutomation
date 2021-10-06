@@ -40,9 +40,17 @@ def convert_to_oneline(multiline: str) -> str:
 
     Returns:
         str: A single-lined version of the same Sleep command.
-    """    
+    """
+    lines = multiline.split('\n')
+    afterComments = str()
+    for line in lines:
+        line = line.partition('#')[0]
+        line = line.rstrip()
+        if line:
+            afterComments += line + '\n'
+    
     # Format wrapper so it sends as one-line
-    oneline = multiline.replace('\n', '')
+    oneline = afterComments.replace('\n', '')
     # Replace 4 spaces with nothing (if tabbed but using spaces as tabs)
     nospaces = oneline.replace('    ', '')
     # Replace tabs with nothing
