@@ -41,13 +41,7 @@ def convert_to_oneline(multiline: str) -> str:
     Returns:
         str: A single-lined version of the same Sleep command.
     """
-    lines = multiline.split('\n')
-    afterComments = str()
-    for line in lines:
-        line = line.partition('#')[0]
-        line = line.rstrip()
-        if line:
-            afterComments += line + '\n'
+    afterComments = removeComments(multiline)
     
     # Format wrapper so it sends as one-line
     oneline = afterComments.replace('\n', '')
@@ -57,6 +51,38 @@ def convert_to_oneline(multiline: str) -> str:
     notabs = nospaces.replace('\t', '')
 
     return notabs
+
+def removeComments(original: str) -> str:
+    lines = original.split('\n')
+    inString = False
+    stringChar = None
+
+    parsed = str()
+
+    for line in lines:
+        parsedLine = str()
+        for char in line:
+            if not inString:
+                # Not in string and we found comment, so rest of the line is a comment
+                if char == "#":
+                    break
+                # Not in string and we found single quote
+                elif char == "'" or char == '"':
+                    inString = True
+                    stringChar = char
+
+            else:
+                if char == stringChar:
+                    inString = False
+                    stringChar = None
+
+            parsedLine += char
+        if parsedLine:
+            parsed += parsedLine + '\n'
+        
+
+    print(f"Parsed: {parsed.strip()}")
+    return parsed.strip()
 
 
 def deserialize(serialized: str):
@@ -82,7 +108,25 @@ def deserialize(serialized: str):
 
 
 def main():
-    pass
+    string = """
+    Multiline String Goes 
+    Here
+    
+    # Comment Whole Line
+    Comment Partial # Line
+    
+    Comment in String
+    string = "#" 
+    string = '#'
+    
+    string = "'#'"
+    string = "'#'"
+    
+    Comments and in String
+    string = "#" #Test
+    string = '#' #test
+    """
+    print(removeComments(string))
 
 
 if __name__ == "__main__":
