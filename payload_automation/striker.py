@@ -370,12 +370,30 @@ class CSConnector:
 		command = "return localip()"
 		return self.ag_get_object(command)
 
-	def get_listeners(self):
+	# Contribution by @JoeVest from his version of our code
+	# Previously we just had get_listeners(self):. CS changed their model which made this not always work, and better to have a listeners_local and listeners_stageless
+	# TODO: Investigate the listeners() api call and determine if we still need a function for it, or if we should make a get_listeners(self) function again that merges the lists to get every possible listener
+	def get_listeners_local(self):
 		command = "return listeners_local()"
+		return self.ag_get_object(command)
+
+	# Contribution by @JoeVest from his version of our code
+	def get_listeners_stageless(self) -> list:
+		command = "return listeners_stageless()"
+		return self.ag_get_object(command)
+
+	# Contribution by @JoeVest from his version of our code
+	def get_listener_info(self,name) -> list:
+		command = f'return listener_info("{name}")'
 		return self.ag_get_object(command)
 
 	def get_beacons(self) -> list:
 		command = "return beacons()"
+		return self.ag_get_object(command)
+
+	# Contribution by @JoeVest from his version of our code
+	def get_beaconlog(self) -> list:
+		command = 'return data_query("beaconlog")'
 		return self.ag_get_object(command)
 
 	def get_users(self) -> list:
@@ -465,8 +483,16 @@ class CSConnector:
 		#self.bid = ''
 		#self.socks_port_connected = False
 
+
+	# Thank you to @JoeVest for finding a solution to the Headless Aggressor adding /script/ to the path with getFileProper()
 	def ag_load_script(self, script_path):
-		cmd = f"include('{script_path}')"
+		cmd = f"include(getFileProper('{script_path}')"
+		self.ag_sendline(cmd)
+
+	# Contribution by @JoeVest from his version of our code
+	# TODO: It should be possible to return this as a list rather than a string. Look into this later.
+	def ag_ls_scripts(self) -> str:
+		cmd = 'return ls'
 		self.ag_sendline(cmd)
 
 	def ag_sendline(self, cmd, script_console_command='e', sleep_time: int = 0):
