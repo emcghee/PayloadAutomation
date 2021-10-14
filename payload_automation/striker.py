@@ -486,7 +486,7 @@ class CSConnector:
 
 	# Thank you to @JoeVest for finding a solution to the Headless Aggressor adding /script/ to the path with getFileProper()
 	def ag_load_script(self, script_path):
-		cmd = f"include(getFileProper('{script_path}')"`
+		cmd = f"include(getFileProper('{script_path}')"
 		self.ag_sendline(cmd)
 
 	# Contribution by @JoeVest from his version of our code
