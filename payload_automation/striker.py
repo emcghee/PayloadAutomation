@@ -40,11 +40,22 @@ class CSConnector:
 		# Let's see if it's in the agprop file
 		if not cs_user or not cs_pass or not cs_port:
 			agproperties = self.parse_aggressor_properties()
-			if cs_host in agproperties:
-				cs_user = agproperties[cs_host]["user"]
-				cs_port = agproperties[cs_host]["port"]
-				cs_pass = agproperties[cs_host]["password"]
+			
+			# If our host isn't an ip address/domain name check if it is the alias name
+			if self.cs_host not in agproperties.keys():
+				# Loop every ip address and its connection information
+				for ip, connection in agproperties.items():
+					# Get alias for this server
+					alias = connection.get('alias')
+					if alias == cs_host:
+						# If we found the alias, change cs_host from alias to ip address
+						self.cs_host = ip
+						break
 
+			if self.cs_host in agproperties.keys():
+				cs_user = agproperties[self.cs_host]["user"]
+				cs_port = agproperties[self.cs_host]["port"]
+				cs_pass = agproperties[self.cs_host]["password"]
 
 		self.cs_user = cs_user + "_striker"
 		if not cs_pass:
@@ -416,6 +427,8 @@ class CSConnector:
 		command = "return targets()"
 		return self.ag_get_object(command)
 
+	
+
 	def connectTeamserver(self):
 		"""Connect to CS team server"""
 
@@ -551,14 +564,16 @@ class CSConnector:
 					regexes = [
 						r"connection\.profiles\.(.*?)\.user=(.*)",
 						r"connection\.profiles\.(.*?)\.password=(.*)",
-						r"connection\.profiles\.(.*?)\.port=(.*)"
+						r"connection\.profiles\.(.*?)\.port=(.*)",
+						r"connection\.profiles\.(.*?)\.alias=(.*)",
 					]
 
 					# The keys for the server dict, order must be the same as the regexes
 					keys = [
 						"user",
 						"password",
-						"port"
+						"port",
+						"alias"
 					]
 
 					# iterate through both regexes and keys at the same tie
