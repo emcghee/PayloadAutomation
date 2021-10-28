@@ -4,8 +4,8 @@ from payload_automation.artifactor import getExif, getHashes, timestomp
 
 
 with CSConnector(
-	cs_host="***REMOVED***", 
-	cs_user="***REMOVED***", 
+	cs_host="localhost", 
+	cs_user="user", 
 	cs_directory="/Applications/Cobalt Strike 4/Cobalt Strike 4.4.app/Contents/Java"
 ) as cs:
-		print(cs.test())
+		print(cs)
