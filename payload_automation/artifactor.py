@@ -5,7 +5,12 @@
 # It can also be imported like a library to be used by other tools. 
 # If used as a library, the items won't be printed to the console, as this is done in the Main function
 
-from magicfile import from_file
+# Some user's have had issues with magicfile and needed to use python-magic and python-magic-bin instead
+# Try magicfile first, if not fall back to other option
+try:
+    from magicfile import from_file
+except ImportException:
+	from magic import from_file
 import hashlib
 
 # For now, I am using subprocess to run exiftool, which I installed through Brew. 

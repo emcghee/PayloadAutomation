@@ -81,7 +81,7 @@ def removeComments(original: str) -> str:
             parsed += parsedLine + '\n'
         
 
-    print(f"Parsed: {parsed.strip()}")
+    #print(f"Parsed: {parsed.strip()}")
     return parsed.strip()
 
 
