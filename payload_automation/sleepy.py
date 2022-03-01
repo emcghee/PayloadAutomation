@@ -10,11 +10,15 @@ def wrap_command(command: str) -> str:
 
     Returns:
         str: The wrapped sleep command.
-    """    
+    """
+
+    commandStripped = command.strip()
+    if commandStripped[-1] != ';':
+        commandStripped += ';'    
 
     wrapper = """
     sub callback {
-        {{COMMAND}};
+        {{COMMAND}}
     }
 
     import java.io.*; 
@@ -28,7 +32,7 @@ def wrap_command(command: str) -> str:
     """
 
     # Replace command in wrapper
-    wrapper = wrapper.replace(r"{{COMMAND}}", command)
+    wrapper = wrapper.replace(r"{{COMMAND}}", commandStripped)
     return convert_to_oneline(wrapper)
 
 
@@ -84,7 +88,6 @@ def removeComments(original: str) -> str:
     print(f"Parsed: {parsed.strip()}")
     return parsed.strip()
 
-
 def deserialize(serialized: str):
     """Deserializes a base64 Java serialized object.
 
@@ -105,7 +108,6 @@ def deserialize(serialized: str):
         # If we raise an Exception in a try/except, it includes the original exception.
         # So we include from None to prevent this (and only raise a single exception)
         raise Exception(f"{type(e).__name__}: {e} raised on {serialized[:50]}") from None
-
 
 def main():
     string = """
