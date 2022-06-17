@@ -20,6 +20,7 @@ import sys
 from collections import defaultdict
 from payload_automation.sleepy import wrap_command, deserialize, convert_to_oneline
 from enum import Enum
+#from payload_automation.beacon import Beacon
 
 class ArtifactType(Enum):
 	DLL = "dll"
@@ -65,7 +66,20 @@ class CSConnector:
 		self.cs_port = cs_port
 		self.cs_directory = cs_directory
 		# NOTE: This is known to work for CS 4.0 and 4.1. This may change in future versions. Possibly look into leveraging CS's agg script (not included on Mac OS systems)
-		self.aggscriptcmd = "java -XX:ParallelGCThreads=4 -XX:+AggressiveHeap -XX:+UseParallelGC -classpath '{}/cobaltstrike.jar' aggressor.headless.Start".format(self.cs_directory)
+		# If the user provides a path that ends in a /, strip it off
+		if self.cs_directory[-1] == "/":
+			self.cs_directory = self.cs_directory[:-1]
+
+		# If the user didn't pass a full jar path, we try the two different known CS jar names added to their directory
+		if self.cs_directory[-4:] != ".jar":
+			if path.isfile(f'{self.cs_directory}/cobaltstrike-client.jar'):
+				self.aggscriptcmd = "java -XX:ParallelGCThreads=4 -XX:+AggressiveHeap -XX:+UseParallelGC -classpath '{}/cobaltstrike-client.jar' aggressor.headless.Start".format(self.cs_directory)
+			elif path.isfile(f'{self.cs_directory}/cobaltstrike.jar'):
+				self.aggscriptcmd = "java -XX:ParallelGCThreads=4 -XX:+AggressiveHeap -XX:+UseParallelGC -classpath '{}/cobaltstrike.jar' aggressor.headless.Start".format(self.cs_directory)
+			else:
+				raise Exception("Error: Cobalt Strike JAR file not found")
+		else:
+			self.aggscriptcmd = "java -XX:ParallelGCThreads=4 -XX:+AggressiveHeap -XX:+UseParallelGC -classpath '{}' aggressor.headless.Start".format(self.cs_directory)
 		# This gets populated once the connect function is run (in the future, maybe run that function in the initialization?)
 		self.cs_process = None
 
@@ -427,7 +441,12 @@ class CSConnector:
 		command = "return targets()"
 		return self.ag_get_object(command)
 
-	
+	# def get_next_new_beacon(self) -> Beacon:
+	# 	#def __init__(self, id, teamserver, user, password, cobaltstrike_directory):
+	# 	command = "on beacon_initial {println($1);}"
+	# 	bid = self.ag_get_string(command)
+	# 	print(bid)
+
 
 	def connectTeamserver(self):
 		"""Connect to CS team server"""
