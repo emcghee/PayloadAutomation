@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="payload_automation",
-    version="1.0.6",
+    version="1.1.0",
     author="Faultline",
     author_email="jahawkins623@gmail.com",
     description="A set of libraries to help be a bridge between Sleep and Python, helping to automate payload development, testing, opsec checking, beacon tasking, and deployment for Cobalt Strike",
